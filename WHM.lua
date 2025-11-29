@@ -12,7 +12,7 @@ local ElementalStaffTable = {
 	['Light'] = 'Apollo\'s Staff',
 	['Dark'] = 'Dark Staff'
 };
-
+--
 --Table to check Day Element
 local DayElementTable = {
     ['Firesday'] = 'Fire',
