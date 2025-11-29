@@ -97,7 +97,7 @@ local sets = {
         Ear1 = {'Abyssal Earring','Morion Earring'},
         Ear2 = 'Novio Earring',
         Body = {'Igqira Weskit','Baron\'s Saio'},
-        Hands = {'Wizard\'s Gloves','Seer\'s Mitts +1','Angler\'s Gloves'},
+        Hands = {'Igqira manillas','Wizard\'s Gloves','Seer\'s Mitts +1','Angler\'s Gloves'},
         Ring1 = {'Snow Ring','Eremite\'s Ring +1'},
         Ring2 = {'Snow Ring','Eremite\'s Ring +1'},
         Back = {'Prism Cape','Black Cape +1'},
@@ -109,17 +109,17 @@ local sets = {
         Main = {'Rose Wand +1','Solid Wand','Yew Wand +1'},
 		Sub = {'Yew Wand +1'},
         Ammo = 'Morion Tathlum',
-        Head = {'Igqira Tiara +1','Wizard\'s Petasos','Baron\'s Chapeau','Seer\'s Crown +1'},
+        Head = {'Genie Tiara','Wizard\'s Petasos','Baron\'s Chapeau','Seer\'s Crown +1'},
 		Neck = {'Enfeebling Torque','Black Neckerchief'},
         Ear1 = 'Morion Earring',
         Ear2 = 'Morion Earring',
         Body = {'Wizard\'s Coat','Baron\'s Saio'},
         Hands = {'Wizard\'s Gloves','Seer\'s Mitts +1','Angler\'s Gloves'},
-        Ring1 = 'Eremite\'s Ring +1',
-        Ring2 = 'Eremite\'s Ring +1',
-        Back = 'Black Cape +1',
+        Ring1 = {'Snow Ring','Eremite\'s Ring +1'},
+        Ring2 = {'Snow Ring','Eremite\'s Ring +1'},
+        Back = {'Prism Cape','Black Cape +1'},
         Waist = {'Reverend sash','Mrc.Cpt. Belt'},
-		Legs = 'Magic Slacks',
+		Legs = 'Igqira Lappas',
         Feet = {'Custom F Boots','Seer\'s Pumps +1'},
     },
     ['Enmity_Priority'] = {
@@ -151,18 +151,18 @@ local sets = {
     ['idle_Priority'] = {
 		Main = 'Terra\'s Staff',
         Ammo = 'Morion Tathlum',
-        Head = {'Emperor Hairpin'},
-        Neck = {'Spirit Torque','Justice Badge'},
-        Ear1 = 'Dodge Earring',
-        Ear2 = 'Dodge Earring',
-        Body = {'Custom Vest'},
-        Hands = {'Seer\'s Mitts +1'},
-        Ring1 = {'Sattva Ring','Stamina Ring +1'},
-        Ring2 = {'Verve Ring +1','Stamina Ring +1'},
-        Back = 'Black Cape +1',
+        --Head = {'Emperor Hairpin'},
+        Neck = {'Jeweled Collar','Justice Badge'},
+        Ear1 = 'Merman\'s Earring',
+        Ear2 = 'Merman\'s Earring',
+        Body = {'Vermillion cloak'},
+        Hands = {'Merman\'s bangles','Seer\'s Mitts +1'},
+        Ring1 = {'Sattva Ring'},
+        Ring2 = {'Merman\'s Ring'},
+        Back = 'Hexerei Cape',
         Waist = 'Mrc.Cpt. Belt',
         Legs = {'Custom Pants'},
-        Feet = {'Light Soleas'},
+        Feet = {'Custom F Boots'},
     },
     ['idlemp_Priority'] = {
 
@@ -224,6 +224,15 @@ local sets = {
         Legs = 'Wizard\'s Tonban',
 		Neck = 'Dark Torque',
 		Ear1 = 'Abyssal Earring',
+		Feet = 'Igqira Huaraches',
+    },	
+    ['Enh_Priority'] = {
+		Neck = 'Enhancing Torque',
+		Feet = 'Igqira Huaraches',
+    },
+    ['Fast_Priority'] = {
+        Back = 'Warlock\'s Mantle',
+		Ear1 = 'Loquac. Earring',
     },	
 };
 profile.Sets = sets;
@@ -306,10 +315,6 @@ profile.HandleDefault = function()
 			if (player.MainJobSync >= 51) then
 				gFunc.Equip('main', 'Terra\'s staff');
 			end
-			if (player.MainJobSync >= 59) then
-				gFunc.Equip('body', 'vermillion cloak');
-				gFunc.Equip('head', '');
-			end
 		if (Settings.MaxMP == true) then
 		gFunc.EquipSet(sets.idlemp);
 		end
@@ -371,7 +376,7 @@ profile.HandleMidcast = function()
 	Settings.CurrentLevel = myLevel;
 	end
     
-	local fastCastValue = 0.05;
+	local fastCastValue = 0.15;
     local minimumBuffer = 0.1;
     local packetDelay = 0.25;
     local castDelay = ((action.CastTime * (1 - fastCastValue)) / 1000) - minimumBuffer;
@@ -392,7 +397,7 @@ profile.HandleMidcast = function()
 				gFunc.Equip('main', ElementalStaffTable[action.Element]);
 			end
 		else
-			gFunc.EquipSet(sets.INT);
+			gFunc.EquipSet(sets.Enf);
 			if (player.MainJobSync >= 51) then
 				gFunc.Equip('main', ElementalStaffTable[action.Element]);
 			end
@@ -414,7 +419,7 @@ profile.HandleMidcast = function()
         gFunc.EquipSet(sets.MND);
 		gFunc.Equip('Main','Rose Wand +1');
 	elseif (action.Skill == 'Enhancing Magic') then
-
+			gFunc.EquipSet(sets.Enh);
 			if (action.Name == 'Sneak') and (target.Name == 'Purshia') then
 				--gFunc.EquipSet(sets.Haste);
 				gFunc.Equip('back','Skulker\'s Cape');
