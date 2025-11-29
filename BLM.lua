@@ -3,11 +3,11 @@ alias = gFunc.LoadFile('alias.lua');
 
 --Table for Elemental Staves
 local ElementalStaffTable = {
-	--['Fire'] = 'Vulcan\'s Staff',
+	['Fire'] = 'Vulcan\'s Staff',
 	['Ice'] = 'Aquilo\'s Staff',
 	['Wind'] = 'Auster\'s Staff',
 	['Earth'] = 'Terra\'s Staff',
-	--['Thunder'] = 'Jupiter\'s Staff',
+	['Thunder'] = 'Jupiter\'s Staff',
 	--['Water'] = 'Neptune\'s Staff',
 	['Light'] = 'Apollo\'s Staff',
 	['Dark'] = 'Dark Staff'
@@ -59,7 +59,7 @@ local sets = {
         Main = {'Rose Wand +1','Solid Wand','Yew Wand +1'},
 		--Ammo = 'Holy Ampulla',
 		Head = 'Republic Circlet',
-        Body = {'Bishop\'s Robe','Baron\'s Saio'},
+        Body = {'Wizard\'s Coat','Bishop\'s Robe','Baron\'s Saio'},
 		Neck = {'Promise Badge','Holy Phial','Justice Badge'},
         Ear1 = {'Geist Earring','Morion Earring','Energy Earring +1'},
         Ear2 = {'Geist Earring','Morion Earring','Energy Earring +1'},
@@ -75,12 +75,46 @@ local sets = {
         Main = {'Rose Wand +1','Solid Wand','Yew Wand +1'},
 		Sub = {'Yew Wand +1'},
         Ammo = 'Morion Tathlum',
-        Head = {'Baron\'s Chapeau','Seer\'s Crown +1'},
+        Head = {'Wizard\'s Petasos','Baron\'s Chapeau','Seer\'s Crown +1'},
 		Neck = 'Black Neckerchief',
         Ear1 = 'Morion Earring',
         Ear2 = 'Morion Earring',
-        Body = 'Baron\'s Saio',
-        Hands = {'Seer\'s Mitts +1','Angler\'s Gloves'},
+        Body = {'Wizard\'s Coat','Baron\'s Saio'},
+        Hands = {'Wizard\'s Gloves','Seer\'s Mitts +1','Angler\'s Gloves'},
+        Ring1 = 'Eremite\'s Ring +1',
+        Ring2 = 'Eremite\'s Ring +1',
+        Back = 'Black Cape +1',
+        Waist = {'Reverend sash','Mrc.Cpt. Belt'},
+		Legs = 'Magic Slacks',
+        Feet = {'Custom F Boots','Seer\'s Pumps +1'},
+    },
+    ['Nuke_Priority'] = {
+        Main = {'Rose Wand +1','Solid Wand','Yew Wand +1'},
+		--Sub = {'Yew Wand +1'},
+        Ammo = 'Morion Tathlum',
+        Head = {'Wizard\'s Petasos','Baron\'s Chapeau','Seer\'s Crown +1'},
+		Neck = 'Elemental Torque',
+        Ear1 = {'Abyssal Earring','Morion Earring'},
+        Ear2 = 'Morion Earring',
+        Body = {'Igqira Weskit','Baron\'s Saio'},
+        Hands = {'Wizard\'s Gloves','Seer\'s Mitts +1','Angler\'s Gloves'},
+        Ring1 = {'Snow Ring','Eremite\'s Ring +1'},
+        Ring2 = {'Snow Ring','Eremite\'s Ring +1'},
+        Back = {'Prism Cape','Black Cape +1'},
+        Waist = {'Penitent\'s Rope','Reverend sash','Mrc.Cpt. Belt'},
+		Legs = {'Errant Slops','Magic Slacks'},
+        Feet = {'Custom F Boots','Seer\'s Pumps +1'},
+    },
+    ['Enf_Priority'] = {
+        Main = {'Rose Wand +1','Solid Wand','Yew Wand +1'},
+		Sub = {'Yew Wand +1'},
+        Ammo = 'Morion Tathlum',
+        Head = {'Wizard\'s Petasos','Baron\'s Chapeau','Seer\'s Crown +1'},
+		Neck = 'Black Neckerchief',
+        Ear1 = 'Morion Earring',
+        Ear2 = 'Morion Earring',
+        Body = {'Wizard\'s Coat','Baron\'s Saio'},
+        Hands = {'Wizard\'s Gloves','Seer\'s Mitts +1','Angler\'s Gloves'},
         Ring1 = 'Eremite\'s Ring +1',
         Ring2 = 'Eremite\'s Ring +1',
         Back = 'Black Cape +1',
@@ -92,7 +126,7 @@ local sets = {
         Main = {'Rose Wand +1','Solid Wand','Yew Wand +1'},
 		Ammo = 'Holy Ampulla',
 		Head = {'Raven Beret','Republic Circlet'},
-        Body = {'Raven Jupon','Bishop\'s Robe','Baron\'s Saio'},
+        Body = {'Wizard\'s Coat','Bishop\'s Robe','Baron\'s Saio'},
 		Neck = {'Promise Badge','Holy Phial','Justice Badge'},
         Ear1 = {'Geist Earring','Morion Earring','Energy Earring +1'},
         Ear2 = {'Geist Earring','Morion Earring','Energy Earring +1'},
@@ -111,6 +145,8 @@ local sets = {
 		--Back = 'Wizard\'s Mantle',
 		Waist = 'Reverend sash',
 		Neck = 'Checkered Scarf',
+		Ear1 = 'Relaxing Earring',
+		Ear2 = 'Magnetic Earring',
     },
     ['idle_Priority'] = {
 		Main = 'Terra\'s Staff',
@@ -149,13 +185,15 @@ local sets = {
 		Sub = 'Hermit\'s Wand',
         Neck = 'Willpower Torque',
         Waist = 'Heko Obi +1',
-		Feet = {'Healer\'s duckbills','Mountain Gaiters'},
+		Feet = {'Wizard\'s Sabots','Mountain Gaiters'},
+		Ear2 = 'Magnetic Earring',
     },
     ['SIRDnoweap_Priority'] = {
         --Main = 'Hermit\'s Wand',
         Neck = 'Willpower Torque',
         Waist = 'Heko Obi +1',
-		Feet = {'Healer\'s duckbills','Mountain Gaiters'},
+		Feet = {'Wizard\'s Sabots','Mountain Gaiters'},
+		Ear2 = 'Magnetic Earring',
     },
     ['ws_Priority'] = {
         Head = 'Mrc.Cpt. Headgear',
@@ -181,6 +219,11 @@ local sets = {
     },
     ['reward_Priority'] = {
 		Ammo = {'Pet Food Delta','Pet Fd. Gamma'},
+    },
+    ['Dark_Priority'] = {
+        Legs = 'Wizard\'s Tonban',
+		Neck = 'Dark Torque',
+		Ear1 = 'Abyssal Earring',
     },	
 };
 profile.Sets = sets;
@@ -360,12 +403,16 @@ profile.HandleMidcast = function()
 				gFunc.Equip('main', ElementalStaffTable[action.Element]);
 			end
 	elseif (action.Skill == 'Elemental Magic') then
-		gFunc.EquipSet(sets.INT);
+		gFunc.EquipSet(sets.Nuke);
+			if (action.MppAftercast <= 50 ) and (player.MainJobSync >= 70) then
+			gFunc.Equip('Neck','Uggalepih Pendant')
+			end
 			if (player.MainJobSync >= 51) then
 				gFunc.Equip('main', ElementalStaffTable[action.Element]);
 			end
     elseif string.match(action.Name, 'Stoneskin') then
-        gFunc.EquipSet(sets.MND);	
+        gFunc.EquipSet(sets.MND);
+		gFunc.Equip('Main','Rose Wand +1');
 	elseif (action.Skill == 'Enhancing Magic') then
 
 			if (action.Name == 'Sneak') and (target.Name == 'Purshia') then
@@ -377,8 +424,8 @@ profile.HandleMidcast = function()
 				gFunc.Equip('back','Skulker\'s Cape');
 				--gFunc.Equip('hands','Dream mittens +1');
 			end		
-	elseif (action.Skill == 'Divine Magic') then
-	gFunc.EquipSet(sets.MND);
+	elseif (action.Skill == 'Dark Magic') then
+	gFunc.EquipSet(sets.Dark);
 	--if not (conquest:GetOutsideControl()) and (gData.GetBuffCount("signet") == 1) then
 	--gFunc.Equip('Head','Republic Circlet')
 	--end
