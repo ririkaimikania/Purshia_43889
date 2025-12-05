@@ -10,7 +10,7 @@ local ElementalStaffTable = {
 	['Thunder'] = 'Jupiter\'s Staff',
 	--['Water'] = 'Neptune\'s Staff',
 	['Light'] = 'Apollo\'s Staff',
-	['Dark'] = 'Dark Staff'
+	['Dark'] = 'Pluto\'s Staff'
 };
 --
 --Table to check Day Element
@@ -25,36 +25,62 @@ local DayElementTable = {
     ['Darksday'] = 'Dark'
 };
 
+--Table for Elemental Obi, remove comment if Obi is obtained
+local ObiTable = {
+    --['Fire'] = 'Karin Obi',
+    --['Earth'] = 'Dorin Obi',
+    --['Water'] = 'Suirin Obi',
+    --['Wind'] = 'Furin Obi',
+    ['Ice'] = 'Hyorin Obi',
+    ['Thunder'] = 'Rairin Obi',
+    --['Light'] = 'Korin Obi',
+    --['Dark'] = 'Anrin Obi'
+};
+
+--Check for Obi that exist and swap if element and day/weather matches
+function ObiCheck(spell)
+    local element = spell.Element
+    local zone = gData.GetEnvironment()
+    
+    local badEle = {
+        ['Fire'] = 'Water',
+        ['Earth'] = 'Wind',
+        ['Water'] = 'Thunder',
+        ['Wind'] = 'Ice',
+        ['Ice'] = 'Fire',
+        ['Thunder'] = 'Earth',
+        ['Light'] = 'Dark',
+        ['Dark'] = 'Light'
+    };
+    
+    local weight = 0
+    
+    --Day comparison
+    if (DayElementTable[zone.Day] == element) then
+        weight = weight + 1
+    elseif (DayElementTable[zone.Day] == badEle[element]) then
+        weight = weight - 1
+    end
+    
+    --Weather comparison
+    if string.find(zone.Weather, element) then
+        if string.find(zone.Weather, 'x2') then
+            weight = weight + 2
+        else
+            weight = weight + 1
+        end
+    elseif string.find(zone.Weather, badEle[element]) then
+        if string.find(zone.Weather, 'x2') then
+            weight = weight - 2
+        else
+            weight = weight - 1
+        end
+    end    
+    
+    return weight
+end
+
 local sets = {
-    ['charm_Priority'] = {
-        Head = 'Noble\'s Ribbon',
-        Neck = 'Bird Whistle',
-		Body = 'Custom Vest',
-        Ring1 = 'Hope Ring',
-        Ring2 = 'Hope Ring',
-		Legs = 'Custom Pants',
-        Waist = {'Corsette +1','Mrc.Cpt. Belt'},
-		Back = 'Lucent Cape',
-    },
-    ['damage_Priority'] = {
-        Ammo = 'Morion Tathlum',
-        Head = 'Emperor Hairpin',
-        Neck = 'Spike Necklace',
-        Ear1 = 'Beetle Earring +1',
-        Ear2 = 'Beetle Earring +1',
-        Body = {'Holy Breastplate','Mrc.Cpt. Doublet'},
-        Hands = 'Battle Gloves',
-        Ring1 = {'Woodsman Ring','Puissance Ring','Courage Ring'},
-        Ring2 = {'Woodsman Ring','Puissance Ring','Courage Ring'},
-        Back = {'White Cape +1','Mist Silk Cape'},
-        Waist = {'Life Belt','Tilt Belt','Mrc.Cpt. Belt'},
-        Legs = {'Cmb.Cst. Slacks','Mrc.Cpt. Hose'},
-        Feet = {'Cmb.Cst. Shoes','Mountain Gaiters','Mrc.Cpt. Gaiters'},
-    },
-    ['weapon_Priority'] = {
-		--Main = {'Time Hammer','Blessed Hammer','Maul +1'},
-		--Sub = {'Ryl.Sqr. Shield','Mahogany Shield'},
-    },
     ['MND_Priority'] = {
         Main = {'Rose Wand +1','Solid Wand','Yew Wand +1'},
 		--Ammo = 'Holy Ampulla',
@@ -74,7 +100,7 @@ local sets = {
     ['INT_Priority'] = {
         Main = {'Rose Wand +1','Solid Wand','Yew Wand +1'},
 		Sub = {'Yew Wand +1'},
-        Ammo = 'Morion Tathlum',
+        Ammo = {'Phantom Tathlum','Morion Tathlum'},
         Head = {'Wizard\'s Petasos','Baron\'s Chapeau','Seer\'s Crown +1'},
 		Neck = 'Black Neckerchief',
         Ear1 = 'Morion Earring',
@@ -91,7 +117,7 @@ local sets = {
     ['Nuke_Priority'] = {
         Main = {'Rose Wand +1','Solid Wand','Yew Wand +1'},
 		--Sub = {'Yew Wand +1'},
-        Ammo = 'Morion Tathlum',
+        Ammo = {'Phantom Tathlum','Morion Tathlum'},
         Head = {'Wizard\'s Petasos','Baron\'s Chapeau','Seer\'s Crown +1'},
 		Neck = 'Elemental Torque',
         Ear1 = {'Abyssal Earring','Morion Earring'},
@@ -105,20 +131,35 @@ local sets = {
 		Legs = {'Errant Slops','Magic Slacks'},
         Feet = {'Custom F Boots','Seer\'s Pumps +1'},
     },
+    ['SorcRing_Priority'] = {
+        Ammo = {'Phantom Tathlum','Morion Tathlum'},
+        Head = 'Wizard\'s Petasos',
+		Neck = 'Elemental Torque',
+        Ear1 = 'Abyssal Earring',
+        Ear2 = 'Novio Earring',
+        Body = 'Igqira Weskit',
+        Hands = 'Igqira manillas',
+        Ring1 = 'Sorcerer\'s Ring',
+        Ring2 = 'Snow Ring',
+        Back = 'Prism Cape',
+        Waist = 'Reverend sash',
+		Legs = 'Errant Slops',
+        Feet = 'Custom F Boots',
+    },
     ['Enf_Priority'] = {
         Main = {'Rose Wand +1','Solid Wand','Yew Wand +1'},
 		Sub = {'Yew Wand +1'},
-        Ammo = 'Morion Tathlum',
+        Ammo = {'Phantom Tathlum','Morion Tathlum'},
         Head = {'Genie Tiara','Wizard\'s Petasos','Baron\'s Chapeau','Seer\'s Crown +1'},
 		Neck = {'Enfeebling Torque','Black Neckerchief'},
-        Ear1 = 'Morion Earring',
+        Ear1 = {'Abyssal Earring','Morion Earring'},
         Ear2 = 'Morion Earring',
         Body = {'Wizard\'s Coat','Baron\'s Saio'},
-        Hands = {'Wizard\'s Gloves','Seer\'s Mitts +1','Angler\'s Gloves'},
+        Hands = {'Errant Cuffs','Seer\'s Mitts +1','Angler\'s Gloves'},
         Ring1 = {'Snow Ring','Eremite\'s Ring +1'},
         Ring2 = {'Snow Ring','Eremite\'s Ring +1'},
         Back = {'Prism Cape','Black Cape +1'},
-        Waist = {'Reverend sash','Mrc.Cpt. Belt'},
+        Waist = {'Penitent\'s Rope','Reverend sash','Mrc.Cpt. Belt'},
 		Legs = 'Igqira Lappas',
         Feet = {'Custom F Boots','Seer\'s Pumps +1'},
     },
@@ -139,18 +180,18 @@ local sets = {
         Feet = {'Crow Gaiters','Seer\'s Pumps +1'},
     },
     ['rest_Priority'] = {
-        Main = {'Dark Staff','Pilgrim\'s Wand'},
-        Body = 'Seer\'s Tunic',
+        Main = {'Pluto\'s Staff','Pilgrim\'s Wand'},
+        Body = {'Errant Hpl.','Vermillion Cloak','Seer\'s Tunic'},
         Legs = 'Baron\'s Slops',
-		--Back = 'Wizard\'s Mantle',
-		Waist = 'Reverend sash',
+		Waist = {'Hierarch Belt','Reverend sash'},
 		Neck = 'Checkered Scarf',
 		Ear1 = 'Relaxing Earring',
 		Ear2 = 'Magnetic Earring',
+		Head = 'Genie Tiara',
     },
     ['idle_Priority'] = {
 		Main = 'Terra\'s Staff',
-        Ammo = 'Morion Tathlum',
+        Ammo = {'Phantom Tathlum','Morion Tathlum'},
         --Head = {'Emperor Hairpin'},
         Neck = {'Jeweled Collar','Justice Badge'},
         Ear1 = 'Merman\'s Earring',
@@ -187,6 +228,14 @@ local sets = {
         Waist = 'Heko Obi +1',
 		Feet = {'Wizard\'s Sabots','Mountain Gaiters'},
 		Ear2 = 'Magnetic Earring',
+		
+        Ear1 = 'Merman\'s Earring',
+        Body = {'Vermillion cloak'},
+        Hands = {'Merman\'s bangles','Seer\'s Mitts +1'},
+        Ring1 = {'Sattva Ring'},
+        Ring2 = {'Merman\'s Ring'},
+        Back = 'Hexerei Cape',
+        Legs = {'Igqira Lappas'},
     },
     ['SIRDnoweap_Priority'] = {
         --Main = 'Hermit\'s Wand',
@@ -223,7 +272,9 @@ local sets = {
     ['Dark_Priority'] = {
         Legs = 'Wizard\'s Tonban',
 		Neck = 'Dark Torque',
-		Ear1 = 'Abyssal Earring',
+		Ear2 = 'Abyssal Earring',
+		Ear1 = 'Loquac. Earring',
+		Legs = 'Nashira Seraweels',
 		Feet = 'Igqira Huaraches',
     },	
     ['Enh_Priority'] = {
@@ -231,7 +282,7 @@ local sets = {
 		Feet = 'Igqira Huaraches',
     },
     ['Fast_Priority'] = {
-        Back = 'Warlock\'s Mantle',
+        --Back = 'Warlock\'s Mantle', #in code
 		Ear1 = 'Loquac. Earring',
     },	
 };
@@ -253,6 +304,10 @@ profile.OnLoad = function()
 	AshitaCore:GetChatManager():QueueCommand(-1, '/alias /blm /lac fwd');
     AshitaCore:GetChatManager():QueueCommand(-1, '/bind ^F1 /lac fwd MaxMP');
 	AshitaCore:GetChatManager():QueueCommand(-1, '/bind ^F2 /lac fwd Melee');
+	AshitaCore:GetChatManager():QueueCommand(-1, '/bind @1 /ma "sleepga II" <t>');
+	AshitaCore:GetChatManager():QueueCommand(-1, '/bind @2 /ma "sleepga" <t>');
+	AshitaCore:GetChatManager():QueueCommand(-1, '/bind @3 /ma "sleep II" <t>');
+	AshitaCore:GetChatManager():QueueCommand(-1, '/bind @4 /ma "sleep" <t>');
 end
 
 profile.OnUnload = function()
@@ -260,6 +315,10 @@ profile.OnUnload = function()
     AshitaCore:GetChatManager():QueueCommand(-1, '/alias delete /blm');
     AshitaCore:GetChatManager():QueueCommand(-1, '/unbind ^F1');
 	AshitaCore:GetChatManager():QueueCommand(-1, '/unbind ^F2');
+	AshitaCore:GetChatManager():QueueCommand(-1, '/unbind @1');
+	AshitaCore:GetChatManager():QueueCommand(-1, '/unbind @2');
+	AshitaCore:GetChatManager():QueueCommand(-1, '/unbind @3');
+	AshitaCore:GetChatManager():QueueCommand(-1, '/unbind @4');
 end
 
 profile.HandleCommand = function(args)
@@ -299,10 +358,6 @@ profile.HandleDefault = function()
 	end
 	if (player.Status == 'Resting') then
 		gFunc.EquipSet(sets.rest);
-		if (player.MainJobSync >= 59) then
-			gFunc.Equip('body', 'vermillion cloak');
-			gFunc.Equip('head', '');
-		end
 		if (Settings.MaxMP == true) then
 		gFunc.EquipSet(sets.idlemp);
 		end
@@ -358,6 +413,19 @@ profile.HandleItem = function()
 end
 
 profile.HandlePrecast = function()
+	local player = gData.GetPlayer();
+	gFunc.EquipSet(sets.Fast);
+	if (player.MainJobSync >= 30) and (player.SubJob == 'RDM') then
+		gFunc.Equip('back','Warlock\'s Mantle');
+	end
+	local action = gData.GetAction();
+    local fastCastValue = 0.22;
+    local minimumBuffer = 0.1;
+    local packetDelay = 0.25;
+    local castDelay = ((action.CastTime * (1 - fastCastValue)) / 1000) - minimumBuffer;
+	if (castDelay >= packetDelay) then
+        gFunc.SetMidDelay(castDelay)
+    end
 
 end
 
@@ -375,15 +443,7 @@ profile.HandleMidcast = function()
 	gFunc.EvaluateLevels(profile.Sets, myLevel);
 	Settings.CurrentLevel = myLevel;
 	end
-    
-	local fastCastValue = 0.15;
-    local minimumBuffer = 0.1;
-    local packetDelay = 0.25;
-    local castDelay = ((action.CastTime * (1 - fastCastValue)) / 1000) - minimumBuffer;
-	if (castDelay >= packetDelay) then
-        gFunc.SetMidDelay(castDelay)
-    end
-	
+
 	if (Settings.Melee == true) then
 	gFunc.InterimEquipSet(sets.SIRDnoweap);
 	else
@@ -408,13 +468,20 @@ profile.HandleMidcast = function()
 				gFunc.Equip('main', ElementalStaffTable[action.Element]);
 			end
 	elseif (action.Skill == 'Elemental Magic') then
+		if (player.HP <= 737 ) then
+		gFunc.EquipSet(sets.SorcRing);
+		else
 		gFunc.EquipSet(sets.Nuke);
-			if (action.MppAftercast <= 50 ) and (player.MainJobSync >= 70) then
-			gFunc.Equip('Neck','Uggalepih Pendant')
-			end
-			if (player.MainJobSync >= 51) then
-				gFunc.Equip('main', ElementalStaffTable[action.Element]);
-			end
+		end
+		if (action.MppAftercast <= 50 ) and (player.MainJobSync >= 70) then
+		gFunc.Equip('Neck','Uggalepih Pendant')
+		end
+		if (player.MainJobSync >= 51) then
+			gFunc.Equip('main', ElementalStaffTable[action.Element]);
+		end
+		if (player.MainJobSync >= 71) and (ObiCheck(action) >= 1) then
+			gFunc.Equip('waist', ObiTable[action.Element])
+		end
     elseif string.match(action.Name, 'Stoneskin') then
         gFunc.EquipSet(sets.MND);
 		gFunc.Equip('Main','Rose Wand +1');

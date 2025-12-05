@@ -10,7 +10,7 @@ local ElementalStaffTable = {
 	--['Thunder'] = 'Jupiter\'s Staff',
 	--['Water'] = 'Neptune\'s Staff',
 	['Light'] = 'Apollo\'s Staff',
-	['Dark'] = 'Dark Staff'
+	['Dark'] = 'Pluto\'s Staff'
 };
 --
 --Table to check Day Element
@@ -103,7 +103,7 @@ local sets = {
         Feet = {'Crow Gaiters','Seer\'s Pumps +1'},
     },
     ['rest_Priority'] = {
-        Main = {'Dark Staff','Blessed Hammer','Pilgrim\'s Wand'},
+        Main = {'Pluto\'s Staff','Blessed Hammer','Pilgrim\'s Wand'},
         Body = 'Seer\'s Tunic',
         Legs = 'Baron\'s Slops',
 		Back = 'Wizard\'s Mantle',
@@ -329,7 +329,7 @@ profile.HandleMidcast = function()
 	Settings.CurrentLevel = myLevel;
 	end
     
-	local fastCastValue = 0.05;
+	local fastCastValue = 0.15;
     local minimumBuffer = 0.1;
     local packetDelay = 0.25;
     local castDelay = ((action.CastTime * (1 - fastCastValue)) / 1000) - minimumBuffer;
@@ -359,8 +359,12 @@ profile.HandleMidcast = function()
 		end
     elseif string.contains(action.Name, 'Cure') or string.contains(action.Name, 'Curaga') then
         gFunc.EquipSet(sets.Enmity);
+		
 			if (player.MainJobSync >= 51) then
 				gFunc.Equip('main', ElementalStaffTable[action.Element]);
+			end
+			if (player.MainJobSync >= 68) then
+				gFunc.Equip('Body','Noble\'s Tunic');
 			end
     elseif string.match(action.Name, 'Stoneskin') then
         gFunc.EquipSet(sets.MND);	
