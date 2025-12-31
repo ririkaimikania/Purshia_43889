@@ -1,6 +1,6 @@
 local profile = {};
 alias = gFunc.LoadFile('alias.lua');
-
+conquest = gFunc.LoadFile('lua_conquest_v2.lua');
 --Table for Elemental Staves
 local ElementalStaffTable = {
 	--['Fire'] = 'Vulcan\'s Staff',
@@ -40,8 +40,8 @@ local sets = {
         Ammo = 'Morion Tathlum',
         Head = 'Emperor Hairpin',
         Neck = 'Spike Necklace',
-        Ear1 = 'Beetle Earring +1',
-        Ear2 = 'Beetle Earring +1',
+        Ear1 = {'Merman\'s Earring','Beetle Earring +1'},
+        Ear2 = {'Merman\'s Earring','Beetle Earring +1'},
         Body = {'Holy Breastplate','Mrc.Cpt. Doublet'},
         Hands = 'Battle Gloves',
         Ring1 = {'Woodsman Ring','Puissance Ring','Courage Ring'},
@@ -52,7 +52,7 @@ local sets = {
         Feet = {'Cmb.Cst. Shoes','Mountain Gaiters','Mrc.Cpt. Gaiters'},
     },
     ['weapon_Priority'] = {
-		Main = {'Time Hammer','Blessed Hammer','Maul +1'},
+		Main = {'Darksteel Maul','Blessed Hammer','Maul +1'},
 		Sub = {'Ryl.Sqr. Shield','Mahogany Shield'},
     },
     ['MND_Priority'] = {
@@ -104,7 +104,7 @@ local sets = {
     },
     ['rest_Priority'] = {
         Main = {'Pluto\'s Staff','Blessed Hammer','Pilgrim\'s Wand'},
-        Body = 'Seer\'s Tunic',
+        Body = {'Errant Hpl.','Seer\'s Tunic'},
         Legs = 'Baron\'s Slops',
 		Back = 'Wizard\'s Mantle',
 		Waist = 'Reverend sash',
@@ -233,7 +233,7 @@ profile.HandleDefault = function()
 	local zone = gData.GetEnvironment()
 	local myLevel = AshitaCore:GetMemoryManager():GetPlayer():GetMainJobLevel();
 	--local town = T{'Port Windurst','Windurst Walls','Windurst Waters','Windurst Woods', 'Heavens Tower', 'Bastok Markets', 'Bastok Mines', 'Port Bastok', 'Metalworks', 'Port Jeuno', 'Lower Jeuno', 'Upper Jeuno', 'Ru\'Lude Gardens', 'Port San d\'Oria', 'Northern San d\'Oria','Southern San d\'Oria','Chateau d\'Oraguille'};
-	local town = T{'Bastok Markets', 'Bastok Mines', 'Port Bastok', 'Metalworks'};
+	local town = T{'Port Windurst','Windurst Walls','Windurst Waters','Windurst Woods', 'Heavens Tower'};
 	if (myLevel ~= Settings.CurrentLevel) then
 	gFunc.EvaluateLevels(profile.Sets, myLevel);
 	Settings.CurrentLevel = myLevel;
@@ -248,7 +248,7 @@ profile.HandleDefault = function()
 	end
 	if (player.Status == 'Resting') then
 		gFunc.EquipSet(sets.rest);
-		if (player.MainJobSync >= 59) then
+		if (player.MainJobSync >= 59) and (player.MainJobSync <= 71) then
 			gFunc.Equip('body', 'vermillion cloak');
 			gFunc.Equip('head', '');
 		end
@@ -277,7 +277,7 @@ profile.HandleDefault = function()
 	end
 	if string.contains(zone.Area, 'Dynamis') then
 		elseif (town:contains(zone.Area)) then
-			gFunc.Equip('Body','Republic Aketon');
+			gFunc.Equip('Body','Federation Aketon');
 	end
 end
 
@@ -308,6 +308,14 @@ profile.HandleAbility = function()
 end
 
 profile.HandleItem = function()
+ local action = gData.GetAction();
+	if (action.Name == 'Silent Oil') then
+		gFunc.Equip('back','Skulker\'s Cape');
+		gFunc.Equip('feet','Dream Boots +1');
+	elseif (action.Name == 'Prism Powder') then
+		gFunc.Equip('back','Skulker\'s Cape');
+		gFunc.Equip('hands','Dream mittens +1');
+	end	
 end
 
 profile.HandlePrecast = function()
@@ -350,11 +358,17 @@ profile.HandleMidcast = function()
 			if (player.MainJobSync >= 51) then
 				gFunc.Equip('main', ElementalStaffTable[action.Element]);
 			end
+			if (conquest:GetOutsideControl()) and (gData.GetBuffCount("signet") == 1) and (player.MainJobSync >= 65)then
+			gFunc.Equip('Hands','Mst.Cst. Bracelets');
+			end
 		else
 			gFunc.EquipSet(sets.INT);
 			gFunc.Equip('body', 'Healer\'s Bliaut');
 			if (player.MainJobSync >= 51) then
 				gFunc.Equip('main', ElementalStaffTable[action.Element]);
+			end
+			if (conquest:GetOutsideControl()) and (gData.GetBuffCount("signet") == 1) and (player.MainJobSync >= 65)then
+			gFunc.Equip('Hands','Mst.Cst. Bracelets');
 			end
 		end
     elseif string.contains(action.Name, 'Cure') or string.contains(action.Name, 'Curaga') then
@@ -373,11 +387,11 @@ profile.HandleMidcast = function()
 			if (action.Name == 'Sneak') and (target.Name == 'Purshia') then
 				--gFunc.EquipSet(sets.Haste);
 				gFunc.Equip('back','Skulker\'s Cape');
-				--gFunc.Equip('feet','Dream Boots +1');
+				gFunc.Equip('feet','Dream Boots +1');
 			elseif (action.Name == 'Invisible') and (target.Name == 'Purshia') then
 				--gFunc.EquipSet(sets.Haste);
 				gFunc.Equip('back','Skulker\'s Cape');
-				--gFunc.Equip('hands','Dream mittens +1');
+				gFunc.Equip('hands','Dream mittens +1');
 			end		
 	elseif (action.Skill == 'Divine Magic') then
 	gFunc.EquipSet(sets.MND);

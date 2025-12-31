@@ -1,6 +1,6 @@
 local profile = {};
 alias = gFunc.LoadFile('alias.lua');
-
+conquest = gFunc.LoadFile('lua_conquest_v2.lua');
 --Table for Elemental Staves
 local ElementalStaffTable = {
 	['Fire'] = 'Vulcan\'s Staff',
@@ -100,7 +100,7 @@ local sets = {
     ['INT_Priority'] = {
         Main = {'Rose Wand +1','Solid Wand','Yew Wand +1'},
 		Sub = {'Yew Wand +1'},
-        Ammo = {'Phantom Tathlum','Morion Tathlum'},
+        Ammo = {'Phtm. Tathlum','Morion Tathlum'},
         Head = {'Wizard\'s Petasos','Baron\'s Chapeau','Seer\'s Crown +1'},
 		Neck = 'Black Neckerchief',
         Ear1 = 'Morion Earring',
@@ -117,13 +117,13 @@ local sets = {
     ['Nuke_Priority'] = {
         Main = {'Rose Wand +1','Solid Wand','Yew Wand +1'},
 		--Sub = {'Yew Wand +1'},
-        Ammo = {'Phantom Tathlum','Morion Tathlum'},
+        Ammo = {'Phtm. Tathlum','Morion Tathlum'},
         Head = {'Wizard\'s Petasos','Baron\'s Chapeau','Seer\'s Crown +1'},
 		Neck = 'Elemental Torque',
         Ear1 = {'Abyssal Earring','Morion Earring'},
         Ear2 = 'Novio Earring',
         Body = {'Igqira Weskit','Baron\'s Saio'},
-        Hands = {'Igqira manillas','Wizard\'s Gloves','Seer\'s Mitts +1','Angler\'s Gloves'},
+        Hands = {'Zenith Mitts','Igqira manillas','Wizard\'s Gloves','Seer\'s Mitts +1','Angler\'s Gloves'},
         Ring1 = {'Snow Ring','Eremite\'s Ring +1'},
         Ring2 = {'Snow Ring','Eremite\'s Ring +1'},
         Back = {'Prism Cape','Black Cape +1'},
@@ -132,13 +132,13 @@ local sets = {
         Feet = {'Custom F Boots','Seer\'s Pumps +1'},
     },
     ['SorcRing_Priority'] = {
-        Ammo = {'Phantom Tathlum','Morion Tathlum'},
+        Ammo = {'Phtm. Tathlum','Morion Tathlum'},
         Head = 'Wizard\'s Petasos',
 		Neck = 'Elemental Torque',
         Ear1 = 'Abyssal Earring',
         Ear2 = 'Novio Earring',
         Body = 'Igqira Weskit',
-        Hands = 'Igqira manillas',
+        Hands = {'Zenith Mitts','Igqira manillas'},
         Ring1 = 'Sorcerer\'s Ring',
         Ring2 = 'Snow Ring',
         Back = 'Prism Cape',
@@ -149,7 +149,7 @@ local sets = {
     ['Enf_Priority'] = {
         Main = {'Rose Wand +1','Solid Wand','Yew Wand +1'},
 		Sub = {'Yew Wand +1'},
-        Ammo = {'Phantom Tathlum','Morion Tathlum'},
+        Ammo = {'Phtm. Tathlum','Morion Tathlum'},
         Head = {'Genie Tiara','Wizard\'s Petasos','Baron\'s Chapeau','Seer\'s Crown +1'},
 		Neck = {'Enfeebling Torque','Black Neckerchief'},
         Ear1 = {'Abyssal Earring','Morion Earring'},
@@ -191,7 +191,7 @@ local sets = {
     },
     ['idle_Priority'] = {
 		Main = 'Terra\'s Staff',
-        Ammo = {'Phantom Tathlum','Morion Tathlum'},
+        Ammo = {'Phtm. Tathlum','Morion Tathlum'},
         --Head = {'Emperor Hairpin'},
         Neck = {'Jeweled Collar','Justice Badge'},
         Ear1 = 'Merman\'s Earring',
@@ -207,28 +207,27 @@ local sets = {
     },
     ['idlemp_Priority'] = {
 
-        Ammo = 'Holy Ampulla', --5
-		Head = 'Electrum Hairpin', --25
-		Neck = 'Holy Phial', --9
-        Ear1 = {'Geist Earring','Morion Earring','Energy Earring +1'}, --5
+       Ammo = {'Phtm. Tathlum','Morion Tathlum'}, --5
+		--Head = 'Electrum Hairpin', --25
+		--Neck = 'Holy Phial', --9
+        Ear1 = {'Astral Earring','Geist Earring','Morion Earring','Energy Earring +1'}, --5
         Ear2 = {'Geist Earring','Morion Earring','Energy Earring +1'}, --5
-        Body = 'Seer\'s Tunic', --8
-        Hands = {'Devotee\'s Mitts','Zealot\'s Mitts'}, --8
+        --Body = 'Seer\'s Tunic', --8
+        Hands = {'Errant Cuffs','Devotee\'s Mitts','Zealot\'s Mitts'}, --8
         Ring1 = 'Astral Ring', --25
-        Ring2 = 'Astral Ring', --25
-        Waist = 'Friar\'s Rope', --4
+        Ring2 = {'Ether Ring','Astral Ring'}, --25
+        Waist = {'Hierarch Belt','Reverend sash'},
 		Legs = {'Custom Pants'}, --32
-        Feet = 'Seer\'s Pumps +1', --5
+        --Feet = 'Seer\'s Pumps +1', --5
 									--92 mp
     },
     ['SIRD_Priority'] = {
         Main = 'Hermit\'s Wand',
-		Sub = 'Hermit\'s Wand',
+		Sub = {'Genbu\'s Shield','Hermit\'s Wand'},
         Neck = 'Willpower Torque',
         Waist = 'Heko Obi +1',
 		Feet = {'Wizard\'s Sabots','Mountain Gaiters'},
 		Ear2 = 'Magnetic Earring',
-		
         Ear1 = 'Merman\'s Earring',
         Body = {'Vermillion cloak'},
         Hands = {'Merman\'s bangles','Seer\'s Mitts +1'},
@@ -276,6 +275,7 @@ local sets = {
 		Ear1 = 'Loquac. Earring',
 		Legs = 'Nashira Seraweels',
 		Feet = 'Igqira Huaraches',
+		Hands = 'Sorcerer\'s Gloves',
     },	
     ['Enh_Priority'] = {
 		Neck = 'Enhancing Torque',
@@ -308,6 +308,7 @@ profile.OnLoad = function()
 	AshitaCore:GetChatManager():QueueCommand(-1, '/bind @2 /ma "sleepga" <t>');
 	AshitaCore:GetChatManager():QueueCommand(-1, '/bind @3 /ma "sleep II" <t>');
 	AshitaCore:GetChatManager():QueueCommand(-1, '/bind @4 /ma "sleep" <t>');
+	AshitaCore:GetChatManager():QueueCommand(-1, '/bind o /item "Timeless Hrglass." <t>');
 end
 
 profile.OnUnload = function()
@@ -319,6 +320,7 @@ profile.OnUnload = function()
 	AshitaCore:GetChatManager():QueueCommand(-1, '/unbind @2');
 	AshitaCore:GetChatManager():QueueCommand(-1, '/unbind @3');
 	AshitaCore:GetChatManager():QueueCommand(-1, '/unbind @4');
+	AshitaCore:GetChatManager():QueueCommand(-1, '/unbind o');
 end
 
 profile.HandleCommand = function(args)
@@ -347,7 +349,7 @@ profile.HandleDefault = function()
 	local zone = gData.GetEnvironment()
 	local myLevel = AshitaCore:GetMemoryManager():GetPlayer():GetMainJobLevel();
 	--local town = T{'Port Windurst','Windurst Walls','Windurst Waters','Windurst Woods', 'Heavens Tower', 'Bastok Markets', 'Bastok Mines', 'Port Bastok', 'Metalworks', 'Port Jeuno', 'Lower Jeuno', 'Upper Jeuno', 'Ru\'Lude Gardens', 'Port San d\'Oria', 'Northern San d\'Oria','Southern San d\'Oria','Chateau d\'Oraguille'};
-	local town = T{'Bastok Markets', 'Bastok Mines', 'Port Bastok', 'Metalworks'};
+	local town = T{'Port Windurst','Windurst Walls','Windurst Waters','Windurst Woods', 'Heavens Tower'};
 	if (myLevel ~= Settings.CurrentLevel) then
 	gFunc.EvaluateLevels(profile.Sets, myLevel);
 	Settings.CurrentLevel = myLevel;
@@ -379,7 +381,7 @@ profile.HandleDefault = function()
 	end
 	if string.contains(zone.Area, 'Dynamis') then
 		elseif (town:contains(zone.Area)) then
-			gFunc.Equip('Body','Republic Aketon');
+			gFunc.Equip('Body','Federation Aketon');
 	end
 end
 
@@ -410,6 +412,14 @@ profile.HandleAbility = function()
 end
 
 profile.HandleItem = function()
+ local action = gData.GetAction();
+	if (action.Name == 'Silent Oil') then
+		gFunc.Equip('back','Skulker\'s Cape');
+		gFunc.Equip('feet','Dream Boots +1');
+	elseif (action.Name == 'Prism Powder') then
+		gFunc.Equip('back','Skulker\'s Cape');
+		gFunc.Equip('hands','Dream mittens +1');
+	end	
 end
 
 profile.HandlePrecast = function()
@@ -444,8 +454,8 @@ profile.HandleMidcast = function()
 	Settings.CurrentLevel = myLevel;
 	end
 
-	if (Settings.Melee == true) then
-	gFunc.InterimEquipSet(sets.SIRDnoweap);
+	if (Settings.MaxMP == true) then
+	gFunc.EquipSet(sets.idlemp);
 	else
 	gFunc.InterimEquipSet(sets.SIRD);
 	end
@@ -456,10 +466,16 @@ profile.HandleMidcast = function()
 			if (player.MainJobSync >= 51) then
 				gFunc.Equip('main', ElementalStaffTable[action.Element]);
 			end
+			if (conquest:GetOutsideControl()) and (gData.GetBuffCount("signet") == 1) and (player.MainJobSync >= 65)then
+			gFunc.Equip('Hands','Mst.Cst. Bracelets');
+			end
 		else
 			gFunc.EquipSet(sets.Enf);
 			if (player.MainJobSync >= 51) then
 				gFunc.Equip('main', ElementalStaffTable[action.Element]);
+			end
+			if (conquest:GetOutsideControl()) and (gData.GetBuffCount("signet") == 1) and (player.MainJobSync >= 65)then
+			gFunc.Equip('Hands','Mst.Cst. Bracelets');
 			end
 		end
     elseif string.contains(action.Name, 'Cure') or string.contains(action.Name, 'Curaga') then
@@ -472,6 +488,9 @@ profile.HandleMidcast = function()
 		gFunc.EquipSet(sets.SorcRing);
 		else
 		gFunc.EquipSet(sets.Nuke);
+		end
+		if not (conquest:GetOutsideControl()) and (gData.GetBuffCount("signet") == 1) then
+			gFunc.Equip('Head','Republic Circlet')
 		end
 		if (action.MppAftercast <= 50 ) and (player.MainJobSync >= 70) then
 		gFunc.Equip('Neck','Uggalepih Pendant')
@@ -490,18 +509,20 @@ profile.HandleMidcast = function()
 			if (action.Name == 'Sneak') and (target.Name == 'Purshia') then
 				--gFunc.EquipSet(sets.Haste);
 				gFunc.Equip('back','Skulker\'s Cape');
-				--gFunc.Equip('feet','Dream Boots +1');
+				gFunc.Equip('feet','Dream Boots +1');
 			elseif (action.Name == 'Invisible') and (target.Name == 'Purshia') then
 				--gFunc.EquipSet(sets.Haste);
 				gFunc.Equip('back','Skulker\'s Cape');
-				--gFunc.Equip('hands','Dream mittens +1');
+				gFunc.Equip('hands','Dream mittens +1');
 			end		
 	elseif (action.Skill == 'Dark Magic') then
 	gFunc.EquipSet(sets.Dark);
 	--if not (conquest:GetOutsideControl()) and (gData.GetBuffCount("signet") == 1) then
 	--gFunc.Equip('Head','Republic Circlet')
 	--end
-		if (player.MainJobSync >= 51) then
+		if string.contains(weatherzone.Weather, "Dark") and (player.MainJobSync >= 75) and (string.match(action.Name, 'Aspir') or string.match(action.Name, 'Drain')) then
+			gFunc.Equip('Main','Diabolos\'s pole');
+		elseif (player.MainJobSync >= 51) then
 			gFunc.Equip('main', ElementalStaffTable[action.Element]);
 		end
 	else
