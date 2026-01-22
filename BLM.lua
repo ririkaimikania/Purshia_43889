@@ -34,7 +34,7 @@ local ObiTable = {
     ['Ice'] = 'Hyorin Obi',
     ['Thunder'] = 'Rairin Obi',
     --['Light'] = 'Korin Obi',
-    --['Dark'] = 'Anrin Obi'
+    ['Dark'] = 'Anrin Obi'
 };
 
 --Check for Obi that exist and swap if element and day/weather matches
@@ -83,7 +83,6 @@ end
 local sets = {
     ['MND_Priority'] = {
         Main = {'Rose Wand +1','Solid Wand','Yew Wand +1'},
-		--Ammo = 'Holy Ampulla',
 		Head = 'Republic Circlet',
         Body = {'Errant Hpl.','Wizard\'s Coat','Bishop\'s Robe','Baron\'s Saio'},
 		Neck = {'Promise Badge','Holy Phial','Justice Badge'},
@@ -116,7 +115,6 @@ local sets = {
     },
     ['Nuke_Priority'] = {
         Main = {'Rose Wand +1','Solid Wand','Yew Wand +1'},
-		--Sub = {'Yew Wand +1'},
         Ammo = {'Phtm. Tathlum','Morion Tathlum'},
         Head = {'Wizard\'s Petasos','Baron\'s Chapeau','Seer\'s Crown +1'},
 		Neck = 'Elemental Torque',
@@ -158,7 +156,7 @@ local sets = {
         Hands = {'Errant Cuffs','Seer\'s Mitts +1','Angler\'s Gloves'},
         Ring1 = {'Snow Ring','Eremite\'s Ring +1'},
         Ring2 = {'Snow Ring','Eremite\'s Ring +1'},
-        Back = {'Prism Cape','Black Cape +1'},
+        Back = {'Altruistic Cape','Prism Cape','Black Cape +1'},
         Waist = {'Penitent\'s Rope','Reverend sash','Mrc.Cpt. Belt'},
 		Legs = 'Igqira Lappas',
         Feet = {'Custom F Boots','Seer\'s Pumps +1'},
@@ -260,6 +258,7 @@ local sets = {
 		Legs = 'Nashira Seraweels',
 		Feet = 'Igqira Huaraches',
 		Hands = 'Sorcerer\'s Gloves',
+		Back = 'Merciful Cape',
     },	
     ['Enh_Priority'] = {
 		Neck = 'Enhancing Torque',
@@ -268,6 +267,37 @@ local sets = {
     ['Fast_Priority'] = {
         --Back = 'Warlock\'s Mantle', #in code
 		Ear1 = 'Loquac. Earring',
+		Feet = 'Rostrum Pumps',
+    },
+    ['MaxMP'] = {
+        Ammo = 'Hedgehog Bomb',
+        Head = 'Faerie Hairpin',
+        Neck = 'Rep.Gold Medal',
+        Ear1 = 'Loquac. Earring',
+        Ear2 = 'Magnetic Earring',
+        Body = 'Flora Cotehardie',
+        Hands = 'Zenith Mitts',
+        Ring1 = 'Sattva Ring',
+        Ring2 = 'Ether Ring',
+        Back = 'Blue Cape +1',
+        Waist = 'Hierarch Belt',
+        Legs = 'Custom Pants',
+        Feet = 'Rostrum Pumps',
+    },
+    ['Macc'] = {
+        Ammo = 'Phtm. Tathlum',
+        Head = 'Wizard\'s Petasos',
+        Neck = 'Elemental Torque',
+        Ear1 = 'Diabolos\'s Earring',
+        Ear2 = 'Magnetic Earring',
+        Body = 'Igqira Weskit',
+        Hands = 'Wizard\'s Gloves',
+        Ring1 = 'Snow Ring',
+        Ring2 = 'Snow Ring',
+        Back = 'Prism Cape',
+        Waist = 'Penitent\'s Rope',
+        Legs = 'Nashira Seraweels',
+        Feet = 'Sorcerer\'s Sabots',
     },	
 };
 profile.Sets = sets;
@@ -293,6 +323,7 @@ profile.OnLoad = function()
 	AshitaCore:GetChatManager():QueueCommand(-1, '/bind @3 /ma "sleep II" <t>');
 	AshitaCore:GetChatManager():QueueCommand(-1, '/bind @4 /ma "sleep" <t>');
 	AshitaCore:GetChatManager():QueueCommand(-1, '/bind o /item "Timeless Hrglass." <t>');
+	AshitaCore:GetChatManager():QueueCommand(-1, '/bind n /exec Count.txt');
 end
 
 profile.OnUnload = function()
@@ -305,6 +336,7 @@ profile.OnUnload = function()
 	AshitaCore:GetChatManager():QueueCommand(-1, '/unbind @3');
 	AshitaCore:GetChatManager():QueueCommand(-1, '/unbind @4');
 	AshitaCore:GetChatManager():QueueCommand(-1, '/unbind o');
+	AshitaCore:GetChatManager():QueueCommand(-1, '/unbind n');
 end
 
 profile.HandleCommand = function(args)
@@ -330,7 +362,7 @@ end
 
 profile.HandleDefault = function()
     local player = gData.GetPlayer();
-	local zone = gData.GetEnvironment()
+	local zone = gData.GetEnvironment();
 	local myLevel = AshitaCore:GetMemoryManager():GetPlayer():GetMainJobLevel();
 	--local town = T{'Port Windurst','Windurst Walls','Windurst Waters','Windurst Woods', 'Heavens Tower', 'Bastok Markets', 'Bastok Mines', 'Port Bastok', 'Metalworks', 'Port Jeuno', 'Lower Jeuno', 'Upper Jeuno', 'Ru\'Lude Gardens', 'Port San d\'Oria', 'Northern San d\'Oria','Southern San d\'Oria','Chateau d\'Oraguille'};
 	local town = T{'Port Windurst','Windurst Walls','Windurst Waters','Windurst Woods', 'Heavens Tower'};
@@ -358,21 +390,21 @@ profile.HandleDefault = function()
 		end
 		if (Settings.Staticidle == false) then
 			if (player.MP > (totalmp + 0)) then gFunc.Equip('Hands','Zenith Mitts'); end --20
-			if (player.MP > (totalmp + 50 - 75)) then gFunc.Equip('Waist','Hierarch Belt'); end --48
-			if (player.MP > (totalmp + 98 - 75)) then gFunc.Equip('Ear2','Magnetic Earring'); end --20
-			if (player.MP > (totalmp + 118 - 75)) then gFunc.Equip('Back','Blue Cape +1'); end --40
-			if (player.MP > (totalmp + 158 - 75)) then gFunc.Equip('Feet','Wizard\'s Sabots'); end --20
-			if (player.MP > (totalmp + 178 - 100)) then gFunc.Equip('Ring2','Ether Ring'); end --30
-			if (player.MP > (totalmp + 208 - 100)) then gFunc.Equip('Ammo','Phtm. Tathlum'); end --10
-			if (player.MP > (totalmp + 218 - 125)) then gFunc.Equip('Legs','Custom Pants'); end --32
+			if (player.MP > (totalmp + 50 - 75)) then gFunc.Equip('Ammo','Hedgehog Bomb'); end --30
+			if (player.MP > (totalmp + 80 - 75)) then gFunc.Equip('Waist','Hierarch Belt'); end --48
+			if (player.MP > (totalmp + 128 - 75)) then gFunc.Equip('Ear2','Magnetic Earring'); end --20
+			if (player.MP > (totalmp + 148 - 100)) then gFunc.Equip('Back','Blue Cape +1'); end --40
+			if (player.MP > (totalmp + 188 - 100)) then gFunc.Equip('Feet','Rostrum pumps'); end --30
+			if (player.MP > (totalmp + 218 - 125)) then gFunc.Equip('Ring2','Ether Ring'); end --30
+			if (player.MP > (totalmp + 248 - 125)) then gFunc.Equip('Legs','Custom Pants'); end --32
 			if (conquest:GetOutsideControl()) and (gData.GetBuffCount("signet") == 1) then
-				if (player.MP > (totalmp + 250 - 125)) then gFunc.Equip('Neck','Rep.Gold Medal'); end --50
+				if (player.MP > (totalmp + 280 - 155)) then gFunc.Equip('Neck','Rep.Gold Medal'); end --50
 			else
-				if (player.MP > (totalmp + 250 - 125)) then gFunc.Equip('Neck','Uggalepih Pendant'); end --20
+				if (player.MP > (totalmp + 280 - 125)) then gFunc.Equip('Neck','Uggalepih Pendant'); end --20
 			end
-			if (player.MP > (totalmp + 270 - 125)) then gFunc.Equip('Ear1','Loquac. Earring'); end --20
-			if (player.MP > (totalmp + 290 - 125)) then gFunc.Equip('Body','Flora Cotehardie'); end --30
-			if (player.MP > (totalmp + 290 - 150)) then gFunc.Equip('Head','Faerie Hairpin'); end --55
+			if (player.MP > (totalmp + 300 - 155)) then gFunc.Equip('Ear1','Loquac. Earring'); end --20
+			if (player.MP > (totalmp + 320 - 155)) then gFunc.Equip('Body','Flora Cotehardie'); end --30
+			if (player.MP > (totalmp + 350 - 175)) then gFunc.Equip('Head','Faerie Hairpin'); end --55
 		end
 	end
 	if (player.Status == 'Idle') then
@@ -385,21 +417,21 @@ profile.HandleDefault = function()
 		end	
 		if (Settings.Staticidle == false) then
 			if (player.MP > (totalmp + 0)) then gFunc.Equip('Hands','Zenith Mitts'); end --20
-			if (player.MP > (totalmp + 50)) then gFunc.Equip('Waist','Hierarch Belt'); end --48
-			if (player.MP > (totalmp + 98)) then gFunc.Equip('Ear2','Magnetic Earring'); end --20
-			if (player.MP > (totalmp + 118)) then gFunc.Equip('Back','Blue Cape +1'); end --40
-			if (player.MP > (totalmp + 158)) then gFunc.Equip('Feet','Wizard\'s Sabots'); end --20
-			if (player.MP > (totalmp + 178)) then gFunc.Equip('Ring2','Ether Ring'); end --30
-			if (player.MP > (totalmp + 208)) then gFunc.Equip('Ammo','Phtm. Tathlum'); end --10
-			if (player.MP > (totalmp + 218)) then gFunc.Equip('Legs','Custom Pants'); end --32
+			if (player.MP > (totalmp + 50)) then gFunc.Equip('Ammo','Hedgehog Bomb'); end --30
+			if (player.MP > (totalmp + 80)) then gFunc.Equip('Waist','Hierarch Belt'); end --48
+			if (player.MP > (totalmp + 128)) then gFunc.Equip('Ear2','Magnetic Earring'); end --20
+			if (player.MP > (totalmp + 148)) then gFunc.Equip('Back','Blue Cape +1'); end --40
+			if (player.MP > (totalmp + 188)) then gFunc.Equip('Feet','Rostrum pumps'); end --30
+			if (player.MP > (totalmp + 218)) then gFunc.Equip('Ring2','Ether Ring'); end --30
+			if (player.MP > (totalmp + 248)) then gFunc.Equip('Legs','Custom Pants'); end --32
 			if (conquest:GetOutsideControl()) and (gData.GetBuffCount("signet") == 1) then
-				if (player.MP > (totalmp + 250 - 75)) then gFunc.Equip('Neck','Rep.Gold Medal'); end --50
+				if (player.MP > (totalmp + 280 - 75)) then gFunc.Equip('Neck','Rep.Gold Medal'); end --50
 			else
-				if (player.MP > (totalmp + 250 - 75)) then gFunc.Equip('Neck','Uggalepih Pendant'); end --20
+				if (player.MP > (totalmp + 280 - 75)) then gFunc.Equip('Neck','Uggalepih Pendant'); end --20
 			end
-			if (player.MP > (totalmp + 270)) then gFunc.Equip('Ear1','Loquac. Earring'); end --20
-			if (player.MP > (totalmp + 290)) then gFunc.Equip('Body','Flora Cotehardie'); end --30
-			if (player.MP > (totalmp + 290)) then gFunc.Equip('Head','Faerie Hairpin'); end --55
+			if (player.MP > (totalmp + 300)) then gFunc.Equip('Ear1','Loquac. Earring'); end --20
+			if (player.MP > (totalmp + 320)) then gFunc.Equip('Body','Flora Cotehardie'); end --30
+			if (player.MP > (totalmp + 350)) then gFunc.Equip('Head','Faerie Hairpin'); end --55
 		end
 	end
 	if string.contains(zone.Area, 'Dynamis') then
@@ -463,7 +495,7 @@ profile.HandlePrecast = function()
 		gFunc.Equip('back','Warlock\'s Mantle');
 	end
 	local action = gData.GetAction();
-    local fastCastValue = 0.22;
+    local fastCastValue = 0.25;
     local minimumBuffer = 0.1;
     local packetDelay = 0.25;
     local castDelay = ((action.CastTime * (1 - fastCastValue)) / 1000) - minimumBuffer;
@@ -478,6 +510,7 @@ profile.HandleMidcast = function()
 	local target = gData.GetActionTarget();
     local MndDebuffs = T{ 'Slow', 'Paralyze', 'Silence'};
     local ElementalDebuffs = T{ 'Burn', 'Rasp', 'Drown', 'Choke', 'Frost', 'Shock' };
+	local Dynstat = T{'Avatar Icon', 'Effigy Prototype', 'Goblin Statue', 'Icon Prototype', 'Statue Prototype', 'Warchief Tombstone','Adamantking Effigy','Goblin Replica','Manifest Icon','Serjeant Tombstone'};
     local action = gData.GetAction();
 	local sig = gData.GetBuffCount(matchBuff);
 	local weatherzone = gData.GetEnvironment()
@@ -501,21 +534,21 @@ profile.HandleMidcast = function()
 	else
 	gFunc.InterimEquipSet(sets.SIRD);
 		if (player.MP > (totalmp + 0)) then gFunc.InterimEquip('Hands','Zenith Mitts'); end --20
-		if (player.MP > (totalmp + 50)) then gFunc.InterimEquip('Waist','Hierarch Belt'); end --48
-		if (player.MP > (totalmp + 98)) then gFunc.InterimEquip('Ear2','Magnetic Earring'); end --20
-		if (player.MP > (totalmp + 118)) then gFunc.InterimEquip('Back','Blue Cape +1'); end --40
-		if (player.MP > (totalmp + 158)) then gFunc.InterimEquip('Feet','Wizard\'s Sabots'); end --20
-		if (player.MP > (totalmp + 178)) then gFunc.InterimEquip('Ring2','Ether Ring'); end --30
-		if (player.MP > (totalmp + 208)) then gFunc.InterimEquip('Ammo','Phtm. Tathlum'); end --10
-		if (player.MP > (totalmp + 218)) then gFunc.InterimEquip('Legs','Custom Pants'); end --32
+		if (player.MP > (totalmp + 50)) then gFunc.InterimEquip('Ammo','Hedgehog Bomb'); end --30
+		if (player.MP > (totalmp + 80)) then gFunc.InterimEquip('Waist','Hierarch Belt'); end --48
+		if (player.MP > (totalmp + 128)) then gFunc.InterimEquip('Ear2','Magnetic Earring'); end --20
+		if (player.MP > (totalmp + 148)) then gFunc.InterimEquip('Back','Blue Cape +1'); end --40
+		if (player.MP > (totalmp + 188)) then gFunc.InterimEquip('Feet','Rostrum pumps'); end --30
+		if (player.MP > (totalmp + 218)) then gFunc.InterimEquip('Ring2','Ether Ring'); end --30
+		if (player.MP > (totalmp + 248)) then gFunc.InterimEquip('Legs','Custom Pants'); end --32
 		if (conquest:GetOutsideControl()) and (gData.GetBuffCount("signet") == 1) then
-			if (player.MP > (totalmp + 250 - 75)) then gFunc.InterimEquip('Neck','Rep.Gold Medal'); end --50
+			if (player.MP > (totalmp + 280 - 75)) then gFunc.InterimEquip('Neck','Rep.Gold Medal'); end --50
 		else
-			if (player.MP > (totalmp + 250 - 75)) then gFunc.InterimEquip('Neck','Uggalepih Pendant'); end --20
+			if (player.MP > (totalmp + 280 - 75)) then gFunc.InterimEquip('Neck','Uggalepih Pendant'); end --20
 		end
-		if (player.MP > (totalmp + 270)) then gFunc.InterimEquip('Ear1','Loquac. Earring'); end --20
-		if (player.MP > (totalmp + 290)) then gFunc.InterimEquip('Body','Flora Cotehardie'); end --30
-		if (player.MP > (totalmp + 290)) then gFunc.InterimEquip('Head','Faerie Hairpin'); end --55
+		if (player.MP > (totalmp + 300)) then gFunc.InterimEquip('Ear1','Loquac. Earring'); end --20
+		if (player.MP > (totalmp + 320)) then gFunc.InterimEquip('Body','Flora Cotehardie'); end --30
+		if (player.MP > (totalmp + 350)) then gFunc.InterimEquip('Head','Faerie Hairpin'); end --55
 	end
 	
 	if (action.Skill == 'Enfeebling Magic') then
@@ -553,6 +586,9 @@ profile.HandleMidcast = function()
 		if (action.MppAftercast <= 50 ) and (player.MainJobSync >= 70) then
 		gFunc.Equip('Neck','Uggalepih Pendant')
 		end
+		if (Dynstat:contains(target.Name)) then
+		gFunc.EquipSet(sets.Macc);
+		end		
 		if (player.MainJobSync >= 51) then
 			gFunc.Equip('main', ElementalStaffTable[action.Element]);
 		end
@@ -583,6 +619,9 @@ profile.HandleMidcast = function()
 		elseif (player.MainJobSync >= 51) then
 			gFunc.Equip('main', ElementalStaffTable[action.Element]);
 		end
+		if (player.MainJobSync >= 71) and (ObiCheck(action) >= 1) then
+			gFunc.Equip('waist', ObiTable[action.Element])
+		end
 	else
         --gFunc.EquipSet(sets.Haste);
     end
@@ -599,25 +638,25 @@ profile.HandleMidcast = function()
 			--gFunc.Equip('Ammo','');
 	end
 		if (player.MP > (totalmp + 0)) then gFunc.Equip('Hands','Zenith Mitts'); end --20
+		if (player.MP > (totalmp + 50)) then gFunc.Equip('Ammo','Hedgehog Bomb'); end --30
 		if (ObiCheck(action) < 0 ) then
-			if (player.MP > (totalmp + 50)) then gFunc.Equip('Waist','Hierarch Belt'); end --48
+			if (player.MP > (totalmp + 80)) then gFunc.Equip('Waist','Hierarch Belt'); end --48
 		end
-		if (player.MP > (totalmp + 98)) then gFunc.Equip('Ear2','Magnetic Earring'); end --20
-		if (player.MP > (totalmp + 118)) then gFunc.Equip('Back','Blue Cape +1'); end --40
-		if (player.MP > (totalmp + 158)) then gFunc.Equip('Feet','Wizard\'s Sabots'); end --20
+		if (player.MP > (totalmp + 128)) then gFunc.Equip('Ear2','Magnetic Earring'); end --20
+		if (player.MP > (totalmp + 148)) then gFunc.Equip('Back','Blue Cape +1'); end --40
+		if (player.MP > (totalmp + 188)) then gFunc.Equip('Feet','Rostrum pumps'); end --30
 		if (player.HP > 737 ) and not (action.Skill == 'Elemental Magic') then
-			if (player.MP > (totalmp + 178)) then gFunc.Equip('Ring2','Ether Ring'); end --30
+			if (player.MP > (totalmp + 218)) then gFunc.Equip('Ring2','Ether Ring'); end --30
 		end
-		if (player.MP > (totalmp + 208)) then gFunc.Equip('Ammo','Phtm. Tathlum'); end --10
-		if (player.MP > (totalmp + 218)) then gFunc.Equip('Legs','Custom Pants'); end --32
+		if (player.MP > (totalmp + 248)) then gFunc.Equip('Legs','Custom Pants'); end --32
 		if (conquest:GetOutsideControl()) and (gData.GetBuffCount("signet") == 1) then
-			if (player.MP > (totalmp + 250 - 75)) then gFunc.Equip('Neck','Rep.Gold Medal'); end --50
+			if (player.MP > (totalmp + 280)) then gFunc.Equip('Neck','Rep.Gold Medal'); end --50
 		else
-			if (player.MP > (totalmp + 250 - 75)) then gFunc.Equip('Neck','Uggalepih Pendant'); end --20
+			if (player.MP > (totalmp + 280)) then gFunc.Equip('Neck','Uggalepih Pendant'); end --20
 		end
-		if (player.MP > (totalmp + 270)) then gFunc.Equip('Ear1','Loquac. Earring'); end --20
-		if (player.MP > (totalmp + 290)) then gFunc.Equip('Body','Flora Cotehardie'); end --30
-		if (player.MP > (totalmp + 290)) then gFunc.Equip('Head','Faerie Hairpin'); end --55
+		if (player.MP > (totalmp + 300)) then gFunc.Equip('Ear1','Loquac. Earring'); end --20
+		if (player.MP > (totalmp + 320)) then gFunc.Equip('Body','Flora Cotehardie'); end --30
+		if (player.MP > (totalmp + 350)) then gFunc.Equip('Head','Faerie Hairpin'); end --55
 end
 
 profile.HandlePreshot = function()
