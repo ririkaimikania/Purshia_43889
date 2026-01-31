@@ -33,7 +33,7 @@ local ObiTable = {
     --['Wind'] = 'Furin Obi',
     ['Ice'] = 'Hyorin Obi',
     ['Thunder'] = 'Rairin Obi',
-    --['Light'] = 'Korin Obi',
+    ['Light'] = 'Korin Obi',
     ['Dark'] = 'Anrin Obi'
 };
 
@@ -101,7 +101,7 @@ local sets = {
 		Sub = {'Yew Wand +1'},
         Ammo = {'Phtm. Tathlum','Morion Tathlum'},
         Head = {'Wizard\'s Petasos','Baron\'s Chapeau','Seer\'s Crown +1'},
-		Neck = 'Checkered Scarf',
+		Neck = {'Prudence Torque','Checkered Scarf'},
         Ear1 = 'Morion Earring',
         Ear2 = 'Morion Earring',
         Body = {'Wizard\'s Coat','Baron\'s Saio'},
@@ -117,7 +117,7 @@ local sets = {
         Main = {'Rose Wand +1','Solid Wand','Yew Wand +1'},
         Ammo = {'Phtm. Tathlum','Morion Tathlum'},
         Head = {'Wizard\'s Petasos','Baron\'s Chapeau','Seer\'s Crown +1'},
-		Neck = 'Elemental Torque',
+		Neck = {'Prudence Torque','Elemental Torque'},
         Ear2 = {'Abyssal Earring','Morion Earring'},
         Ear1 = 'Novio Earring',
         Body = {'Igqira Weskit','Baron\'s Saio'},
