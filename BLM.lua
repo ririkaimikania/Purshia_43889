@@ -27,10 +27,10 @@ local DayElementTable = {
 
 --Table for Elemental Obi, remove comment if Obi is obtained
 local ObiTable = {
-    --['Fire'] = 'Karin Obi',
+    ['Fire'] = 'Karin Obi',
     --['Earth'] = 'Dorin Obi',
     --['Water'] = 'Suirin Obi',
-    --['Wind'] = 'Furin Obi',
+    ['Wind'] = 'Furin Obi',
     ['Ice'] = 'Hyorin Obi',
     ['Thunder'] = 'Rairin Obi',
     ['Light'] = 'Korin Obi',
@@ -296,8 +296,13 @@ local sets = {
         Ring2 = 'Snow Ring',
         Back = 'Prism Cape',
         Waist = 'Penitent\'s Rope',
-        Legs = 'Nashira Seraweels',
+		Legs = {'Errant Slops'},
+        --Legs = 'Nashira Seraweels',
         Feet = 'Sorcerer\'s Sabots',
+    },
+    ['Reraise'] = {
+        Head = 'Reraise Hairpin',
+        Body = 'Igqira Weskit',
     },	
 };
 profile.Sets = sets;
@@ -307,6 +312,7 @@ local Settings = {
 	MeleeVariant = 1,
 	Staticidle = false;
 	Melee = false;
+	Reraise = false;
 };
 
 profile.Packer = {
@@ -318,6 +324,7 @@ profile.OnLoad = function()
 	AshitaCore:GetChatManager():QueueCommand(-1, '/alias /blm /lac fwd');
     AshitaCore:GetChatManager():QueueCommand(-1, '/bind ^F1 /lac fwd Staticidle');
 	AshitaCore:GetChatManager():QueueCommand(-1, '/bind ^F2 /lac fwd Melee');
+	AshitaCore:GetChatManager():QueueCommand(-1, '/bind ^F3 /lac fwd Reraise');
 	AshitaCore:GetChatManager():QueueCommand(-1, '/bind @1 /ma "sleepga II" <t>');
 	AshitaCore:GetChatManager():QueueCommand(-1, '/bind @2 /ma "sleepga" <t>');
 	AshitaCore:GetChatManager():QueueCommand(-1, '/bind @3 /ma "sleep II" <t>');
@@ -331,6 +338,7 @@ profile.OnUnload = function()
     AshitaCore:GetChatManager():QueueCommand(-1, '/alias delete /blm');
     AshitaCore:GetChatManager():QueueCommand(-1, '/unbind ^F1');
 	AshitaCore:GetChatManager():QueueCommand(-1, '/unbind ^F2');
+	AshitaCore:GetChatManager():QueueCommand(-1, '/unbind ^F3');
 	AshitaCore:GetChatManager():QueueCommand(-1, '/unbind @1');
 	AshitaCore:GetChatManager():QueueCommand(-1, '/unbind @2');
 	AshitaCore:GetChatManager():QueueCommand(-1, '/unbind @3');
@@ -356,6 +364,15 @@ profile.HandleCommand = function(args)
         else
             Settings.Staticidle = true;
 			gFunc.Message('Static Idle Lock');
+        end
+	end
+	if (args[1] == 'Reraise') then
+        if (Settings.Reraise == true) then
+            Settings.Reraise = false;
+			gFunc.Message('Regular');
+        else
+            Settings.Reraise = true;
+			gFunc.Message('Reraise Lock');
         end
 	end
 end
@@ -439,6 +456,7 @@ profile.HandleDefault = function()
 			gFunc.Equip('Body','Federation Aketon');
 	end
 	gFunc.LockStyle(sets.idle)
+	if (Settings.Reraise == true) then gFunc.EquipSet(sets.Reraise);end;
 end
 
 profile.HandleAbility = function()
@@ -503,6 +521,8 @@ profile.HandlePrecast = function()
         gFunc.SetMidDelay(castDelay)
     end
 	if (player.MP > (totalmp + 118)) then gFunc.InterimEquip('Back','Blue Cape +1'); end --40
+	if (Settings.Reraise == true) then gFunc.Equip('Head','Reraise Hairpin');end;
+	if (Settings.Reraise == true) then gFunc.InterimEquip('Head','Reraise Hairpin');end;
 end
 
 profile.HandleMidcast = function()
@@ -531,6 +551,7 @@ profile.HandleMidcast = function()
 	local totalmp = 758 - modmp;
 	if (Settings.MaxMP == true) then
 	gFunc.EquipSet(sets.idlemp);
+		if (Settings.Reraise == true) then gFunc.Equip(sets.Reraise);end;
 	else
 	gFunc.InterimEquipSet(sets.SIRD);
 		if (player.MP > (totalmp + 0)) then gFunc.InterimEquip('Hands','Zenith Mitts'); end --20
@@ -549,6 +570,7 @@ profile.HandleMidcast = function()
 		if (player.MP > (totalmp + 300)) then gFunc.InterimEquip('Ear1','Loquac. Earring'); end --20
 		if (player.MP > (totalmp + 320)) then gFunc.InterimEquip('Body','Flora Cotehardie'); end --30
 		if (player.MP > (totalmp + 350)) then gFunc.InterimEquip('Head','Faerie Hairpin'); end --55
+		if (Settings.Reraise == true) then gFunc.InterimEquipSet(sets.Reraise);end;
 	end
 	
 	if (action.Skill == 'Enfeebling Magic') then
@@ -586,9 +608,9 @@ profile.HandleMidcast = function()
 		if (action.MppAftercast <= 50 ) and (player.MainJobSync >= 70) then
 		gFunc.Equip('Neck','Uggalepih Pendant')
 		end
-		if (Dynstat:contains(target.Name)) then
-		gFunc.EquipSet(sets.Macc);
-		end		
+		--if (Dynstat:contains(target.Name)) then
+		--gFunc.EquipSet(sets.Macc);
+		--end		
 		if (player.MainJobSync >= 51) then
 			gFunc.Equip('main', ElementalStaffTable[action.Element]);
 		end
@@ -657,6 +679,7 @@ profile.HandleMidcast = function()
 		if (player.MP > (totalmp + 300)) then gFunc.Equip('Ear1','Loquac. Earring'); end --20
 		if (player.MP > (totalmp + 320)) then gFunc.Equip('Body','Flora Cotehardie'); end --30
 		if (player.MP > (totalmp + 350)) then gFunc.Equip('Head','Faerie Hairpin'); end --55
+	if (Settings.Reraise == true) then gFunc.EquipSet(sets.Reraise);end;
 end
 
 profile.HandlePreshot = function()

@@ -26,10 +26,10 @@ local DayElementTable = {
 };
 --Table for Elemental Obi, remove comment if Obi is obtained
 local ObiTable = {
-    --['Fire'] = 'Karin Obi',
+    ['Fire'] = 'Karin Obi',
     --['Earth'] = 'Dorin Obi',
     --['Water'] = 'Suirin Obi',
-    --['Wind'] = 'Furin Obi',
+    ['Wind'] = 'Furin Obi',
     ['Ice'] = 'Hyorin Obi',
     ['Thunder'] = 'Rairin Obi',
     ['Light'] = 'Korin Obi',
@@ -91,7 +91,7 @@ local sets = {
     },
     ['damage_Priority'] = {
         Ammo = {'Tiphia Sting','Holy Ampulla'},
-        Head = {'Raven Beret','Emperor Hairpin'},
+        Head = {'Optical Hat','Raven Beret','Emperor Hairpin'},
         Neck = {'Prudence Torque','Spike Necklace'},
         Ear1 = {'Brutal Earring','Beetle Earring +1'},
         Ear2 = {'Merman\'s Earring','Beetle Earring +1'},
@@ -234,7 +234,7 @@ local sets = {
     },
     ['wsacc_Priority'] = {
         Ammo = {'Tiphia Sting','Holy Ampulla'},
-        Head = 'Cleric\'s Cap',
+        Head = 'Optical Hat',
         Neck = 'Prudence Torque',
         Ear1 = 'Brutal Earring',
         Ear2 = 'Merman\'s Earring',
@@ -736,6 +736,7 @@ profile.HandleMidcast = function()
 			--gFunc.Equip('Body','Cleric\'s Bliaut');
 			gFunc.Equip('Main','Rucke\'s Rung');
 	elseif (action.Skill == 'Enhancing Magic') then
+			gFunc.EquipSet(sets.Enh);
 			if (action.Name == 'Sneak') and (target.Name == 'Purshia') then
 				--gFunc.EquipSet(sets.Haste);
 				gFunc.Equip('back','Skulker\'s Cape');
@@ -744,8 +745,7 @@ profile.HandleMidcast = function()
 				--gFunc.EquipSet(sets.Haste);
 				gFunc.Equip('back','Skulker\'s Cape');
 				gFunc.Equip('hands','Dream mittens +1');
-			end		
-			gFunc.EquipSet(sets.Enh);
+			end					
 	elseif (action.Skill == 'Divine Magic') then
 	gFunc.EquipSet(sets.MND);
 	if not (conquest:GetOutsideControl()) and (gData.GetBuffCount("signet") == 1) then
