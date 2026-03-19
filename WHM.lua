@@ -293,6 +293,13 @@ local sets = {
         Legs = 'Raven Hose',
         Feet = 'Rostrum Pumps',
     },
+    ['lockstyle'] = {
+		Main = 'Kirin\'s Pole',
+        Head = 'Raven Beret',
+        Body = 'Blessed Bliaut',
+        Hands = 'Blessed Mitts',
+		Legs = 'Custom Pants',
+    },
 };
 profile.Sets = sets;
 
@@ -536,6 +543,7 @@ profile.HandleDefault = function()
 		elseif (town:contains(zone.Area)) then
 			gFunc.Equip('Body','Federation Aketon');
 	end
+	gFunc.LockStyle(sets.lockstyle)
 end
 
 profile.HandleAbility = function()

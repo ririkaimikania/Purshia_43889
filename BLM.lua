@@ -301,7 +301,7 @@ local sets = {
         Head = 'Elite Beret',
         Body = 'Flora Cotehardie',
         Hands = 'Angler\'s Gloves',
-        Legs = 'Angler\'s Hose',
+        Legs = 'Custom Pants',
         Feet = 'Angler\'s Boots',
     },	
 };
@@ -633,13 +633,12 @@ profile.HandleMidcast = function()
 			gFunc.Equip('waist', ObiTable[action.Element])
 		end
 	elseif (action.Skill == 'Enhancing Magic') and not (Statbuffs:contains(action.Name)) then
+			gFunc.EquipSet(sets.Enh);
 		    if string.match(action.Name, 'Stoneskin') then
 			gFunc.EquipSet(sets.Enh);
 			gFunc.EquipSet(sets.MND);
 			gFunc.Equip('Main','Rose Wand +1');
-			return;
 			end
-			gFunc.EquipSet(sets.Enh);
 			if (action.Name == 'Sneak') and (target.Name == 'Purshia') then
 				--gFunc.EquipSet(sets.Haste);
 				gFunc.Equip('back','Skulker\'s Cape');
@@ -650,6 +649,7 @@ profile.HandleMidcast = function()
 				gFunc.Equip('hands','Dream mittens +1');
 			end		
 	elseif (action.Skill == 'Dark Magic') then
+	if string.match(action.Name, 'Aspir') then gFunc.EquipSet(sets.MaxMP); end
 	gFunc.EquipSet(sets.Dark);
 		if string.contains(weatherzone.Weather, "Dark") and (player.MainJobSync >= 75) and ((string.match(action.Name, 'Aspir') or string.match(action.Name, 'Drain'))) then
 			gFunc.Equip('Main','Diabolos\'s pole');
