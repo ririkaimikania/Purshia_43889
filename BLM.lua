@@ -649,8 +649,14 @@ profile.HandleMidcast = function()
 				gFunc.Equip('hands','Dream mittens +1');
 			end		
 	elseif (action.Skill == 'Dark Magic') then
-	if string.match(action.Name, 'Aspir') then gFunc.EquipSet(sets.MaxMP); end
-	gFunc.EquipSet(sets.Dark);
+	    if string.contains(weatherzone.Dayelement, "Dark") and (player.MainJobSync >= 65) and ((string.match(action.Name, 'Aspir') or string.match(action.Name, 'Drain'))) then
+            gFunc.EquipSet(sets.MaxMP);
+            gFunc.EquipSet(sets.Dark);
+            gFunc.Equip('Ring1','Diabolos\'s ring');
+        else
+            if string.match(action.Name, 'Aspir') then gFunc.EquipSet(sets.MaxMP); end
+            gFunc.EquipSet(sets.Dark);
+        end
 		if string.contains(weatherzone.Weather, "Dark") and (player.MainJobSync >= 75) and ((string.match(action.Name, 'Aspir') or string.match(action.Name, 'Drain'))) then
 			gFunc.Equip('Main','Diabolos\'s pole');
 		elseif (player.MainJobSync >= 51) then
